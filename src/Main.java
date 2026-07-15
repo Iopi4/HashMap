@@ -1,6 +1,4 @@
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -16,8 +14,10 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
         int totalCoast = 0; //Общая стоимость доставки
+        //Добавим Set который автоматически хранит только уникальные названия стран
+        Set<String> uniqueCountries = new HashSet<>();
 
-        while (true){
+        while (true) {
             System.out.println("Заполнение нового заказа.");
             System.out.println("Введите страну: ");
             String country = scanner.nextLine().trim();
@@ -34,17 +34,20 @@ public class Main {
 
             //Проверяем наличие адреса в мапе. Если есть — вычисляем стоимость, добавляем к общей сумме и выводим.
             //Иначе сообщаем об отсутствии доставки.
-            if (costPerAddress.containsKey(address)){
+            if (costPerAddress.containsKey(address)) {
                 int pricePerKg = costPerAddress.get(address);
                 int deliveryCost = pricePerKg * weight;
                 totalCoast += deliveryCost;
+                //добавляем уникальный адрес в список HashSet
+                uniqueCountries.add(address.getCountry());
                 System.out.println("Стоимость доставки составит: " + deliveryCost + " руб.");
                 System.out.println("Общая стоимость доставки составит: " + totalCoast + " руб.");
+                //Добавляем вывод количества стран доставки
+                System.out.println("Количество уникальных стран доставки: " + uniqueCountries.size() + " руб.");
             } else {
                 System.out.println("Доставки по этому адресу нет");
             }
         }
         scanner.close();
-
     }
 }
